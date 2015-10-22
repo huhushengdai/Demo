@@ -1,0 +1,66 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.windy.bluetooth.ui.OperationActivity">
+
+    <TextView
+        android:id="@+id/gate_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="设备地址"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/gate_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="设备状态"
+        android:textSize="18sp"/>
+    <Button
+        android:id="@+id/gate_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="更新连接状态"/>
+    <Button
+        android:id="@+id/gate_open"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="开闸"/>
+
+    <Button
+        android:id="@+id/gate_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="关闸"/>
+
+    <Button
+        android:id="@+id/gate_read"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="读取信息"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="设备返回信息:"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/gate_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="内容"
+        android:textSize="18sp"/>
+
+</LinearLayout>
