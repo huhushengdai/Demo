@@ -33,6 +33,12 @@
                 <action android:name="android.bluetooth.device.action.PAIRING_REQUEST"/>
             </intent-filter>
         </receiver>
+        <receiver android:name=".le.BluetoothStateBroadcast">
+            <intent-filter>
+                <!-- 接受广播的类型   -->
+                <action android:name="android.bluetooth.device.action.BOND_STATE_CHANGED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

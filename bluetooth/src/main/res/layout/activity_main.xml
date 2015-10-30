@@ -12,21 +12,6 @@
         android:layout_height="wrap_content"
         android:text="搜索蓝牙设备"
         android:onClick="scanBlue"/>
-    <!--<Button-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="进入新页面"-->
-        <!--android:onClick="into"/>-->
-    <!--<Button-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="创建匹配"-->
-        <!--android:onClick="createPin"/>-->
-    <!--<Button-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="输入密码"-->
-        <!--android:onClick="setPin"/>-->
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

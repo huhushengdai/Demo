@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.windy.bluetooth.R;
+import com.windy.bluetooth.bean.DeviceInfo;
 
 import java.util.ArrayList;
 
@@ -16,8 +17,8 @@ import java.util.ArrayList;
  * time: 2015/10/13
  * description:
  */
-public class AddBluetoothAdapter extends AppBaseAdapter<String>{
-    public AddBluetoothAdapter(ArrayList<String> data, Context context) {
+public class AddBluetoothAdapter extends AppBaseAdapter<DeviceInfo>{
+    public AddBluetoothAdapter(ArrayList<DeviceInfo> data, Context context) {
         super(data, context);
     }
 
@@ -32,12 +33,15 @@ public class AddBluetoothAdapter extends AppBaseAdapter<String>{
         }else {
             vh = (ViewHolder) view.getTag();
         }
-        vh.address.setText(data.get(position));
+        vh.address.setText(data.get(position).getAddress());
+        vh.name.setText(data.get(position).getName());
         return view;
     }
     class ViewHolder{
         @ViewInject(R.id.item_bluetooth_address)
         TextView address;
+        @ViewInject(R.id.item_bluetooth_name)
+        TextView name;
         ViewHolder(View convertView){
             ViewUtils.inject(this,convertView);
         }

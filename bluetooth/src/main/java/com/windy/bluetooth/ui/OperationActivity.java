@@ -40,7 +40,7 @@ public class OperationActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             info.setText("第" + (count++) + "次蓝牙设备返回数据：" + intent.getStringExtra(GattAttributes.BROAD_INFO));
-            Log.i(TAG, "接收到蓝牙数据:" + intent.getStringExtra(address));
+            Log.i(TAG, "接收到蓝牙数据:" + intent.getStringExtra(GattAttributes.BROAD_INFO));
         }
     };
 

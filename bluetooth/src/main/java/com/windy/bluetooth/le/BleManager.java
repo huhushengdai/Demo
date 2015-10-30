@@ -3,6 +3,7 @@ package com.windy.bluetooth.le;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -13,6 +14,8 @@ import android.util.Log;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * author: wang
@@ -225,6 +228,40 @@ public class BleManager {
         return true;
     }
 
+    public synchronized boolean connect(String address){
+        if (!isOpenBluetooth() || TextUtils.isEmpty(address)) {
+            Log.w(TAG, "没有开启蓝牙设备，或者address=" + address);
+            return false;
+        }
+//        if (gatts.containsKey(address)) {
+//            BluetoothGatt gatt = gatts.get(address).getGatt();
+//            BluetoothDevice deviceExist = gatt.getDevice();
+//            if (deviceExist.getBondState()==BluetoothDevice.BOND_BONDED){
+//                return gatt.connect();
+//            }
+//        }
+        // 获得给定的蓝牙硬件地址的蓝牙设备对象
+        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+        //判断设备是否匹配
+        if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
+            createBond(device);
+            Log.i(TAG,"设备没有连接");
+            return false;
+        }else {
+            EventBus.getDefault().post(device);
+            Log.i(TAG, "设备已经连接");
+            return true;
+        }
+    }
+    public synchronized boolean addGatt(BluetoothDevice device,MyGattCallBack callback){
+        if (device!=null){
+            BluetoothGatt gatt = device.connectGatt(mContext, false, callback);
+            gatts.put(device.getAddress(), new BluetoothContainer(gatt, callback));
+            Log.i(TAG, "连接蓝牙设备成功，连接对象：" + device.getAddress());
+            return true;
+        }
+        return false;
+    }
     /**
      * 自动配对设置Pin值
      */

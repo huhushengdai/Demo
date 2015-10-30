@@ -1,6 +1,6 @@
 package com.windy.bluetooth.ui;
 
-import android.bluetooth.BluetoothAdapter;
+import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,11 +18,15 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.windy.bluetooth.R;
 import com.windy.bluetooth.adapters.AddBluetoothAdapter;
+import com.windy.bluetooth.bean.DeviceInfo;
+import com.windy.bluetooth.dialogs.DialogManager;
 import com.windy.bluetooth.le.BleManager;
-import com.windy.bluetooth.le.GattAttributes;
+import com.windy.bluetooth.le.BluetoothStateBroadcast;
 import com.windy.bluetooth.le.MyGattCallBack;
 
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 
 public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
@@ -32,10 +35,12 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     @ViewInject(R.id.gate_list)
     private ListView gateList;
-    private ArrayList<String> data = new ArrayList<>();
+    private ArrayList<DeviceInfo> data = new ArrayList<>();
     private AddBluetoothAdapter adapter;
 
     private BleManager manager;
+
+    private Dialog loadingDialog;
 
     private BleManager.LeScanResult leScanResult = new BleManager.LeScanResult() {
         @Override
@@ -44,9 +49,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    String address = device.getAddress();
-                    if (!data.contains(address)) {
-                        data.add(address);
+                    if (!deviceExist(device.getAddress())) {
+                        DeviceInfo deviceInfo = new DeviceInfo(device.getAddress(),device.getName());
+                        data.add(deviceInfo);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -73,8 +78,11 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             finish();
         }
         manager.setLeScanResult(leScanResult);
+
+        EventBus.getDefault().register(this);//注册EventBus
         //注册广播
 //        register();
+        loadingDialog = DialogManager.createDialog(DialogManager.LOADING_DIALOG,this);
     }
 
     /**
@@ -83,26 +91,28 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     private void register() {
         IntentFilter intent = new IntentFilter();
 //        intent.addAction(BluetoothDevice.ACTION_FOUND);// 用BroadcastReceiver来取得搜索结果
-//        intent.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);//连接状态发生改变
-        intent.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);//密码请求
+        intent.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);//连接状态发生改变
+//        intent.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);//密码请求
 //        intent.addAction(BluetoothDevice.EXTRA_PAIRING_VARIANT);//
 //        intent.addAction(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
 //        intent.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(receiver, intent);
     }
 
+
     BluetoothDevice device = null;
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-//            getState(intent);
-//            try {
-//                toToast("广播输入密码：" + manager.autoBond(address, "000000"));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-        }
-    };
+    private BroadcastReceiver receiver = new BluetoothStateBroadcast();
+//    private BroadcastReceiver receiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+////            getState(intent);
+////            try {
+////                toToast("广播输入密码：" + manager.autoBond(address, "000000"));
+////            } catch (Exception e) {
+////                e.printStackTrace();
+////            }
+//        }
+//    };
 
     //-----
     public void getState(Intent intent) {
@@ -128,6 +138,45 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         }
     }
     //-----
+    public void onEventMainThread(BluetoothDevice device){
+        Log.d(TAG, "onEventMainThread......");
+        switch (device.getBondState()) {
+            case BluetoothDevice.BOND_BONDING:
+                Log.d(TAG, "正在配对......");
+                break;
+            case BluetoothDevice.BOND_BONDED:
+                Log.d(TAG, "完成配对");
+                if (manager.addGatt(device,new MyGattCallBack(address,MainActivity.this))){
+                    loadingDialog.dismiss();
+                    DialogManager.dismiss(loadingDialog);
+                    Intent intent = new Intent(MainActivity.this,OperationActivity.class);
+                    intent.putExtra(ADD, address);
+                    startActivity(intent);
+                }
+
+                break;
+            case BluetoothDevice.BOND_NONE:
+                Log.d(TAG, "取消配对");
+                loadingDialog.dismiss();
+                toToast("已经取消匹配，请重新匹配");
+                break;
+        }
+    }
+
+//    public void onEventPostThread(BluetoothDevice device){
+//        Log.d(TAG, "onEventPostThread......");
+//    }
+//    public void onEventBackgroundThread(BluetoothDevice device){
+//        Log.d(TAG, "onEventBackgroundThread......");
+//    }public void onEventAsync(BluetoothDevice device){
+//        Log.d(TAG, "onEventAsync......");
+//    }
+
+    @Override
+    protected void onPause() {
+        DialogManager.dismiss(loadingDialog);
+        super.onPause();
+    }
 
     /**
      * 开启搜索蓝牙设备
@@ -145,6 +194,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         manager.disconnectAll();
 //        manager.closeBluetooth();
         manager = null;
+
+        EventBus.getDefault().unregister(this);
         //取消广播
 //        unregisterReceiver(receiver);
         super.onDestroy();
@@ -155,13 +206,14 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.i(TAG, "点击item:" + position);
-        address = data.get(position);
-        if (manager.connect(address,new MyGattCallBack(address,MainActivity.this))){
-            Intent intent = new Intent(MainActivity.this,OperationActivity.class);
-            intent.putExtra(ADD,address);
-            startActivity(intent);
-        }
-
+        address = data.get(position).getAddress();
+//        if (manager.connect(address,new MyGattCallBack(address,MainActivity.this))){
+//            Intent intent = new Intent(MainActivity.this,OperationActivity.class);
+//            intent.putExtra(ADD,address);
+//            startActivity(intent);
+//        }
+        manager.connect(address);
+        loadingDialog.show();
         //---
 //        try {
 ////            manager.autoBond(address, "000000");
@@ -182,63 +234,19 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         }
     }
 
-    /**
-     * 创建匹配
-     */
-    public void createPin(View view) {
-//        try {
-//            manager.createBond(address);
-//        } catch (Exception e) {
-//            Log.w(TAG,"创建匹配失败");
-////        }
-//        BluetoothDevice device = manager.getDevice(address);
-//        String stateInfo = "";
-//        switch (device.getBondState()) {
-//            case -1:
-//                stateInfo = "找不到连接设备";
-//                break;
-//            case BluetoothDevice.BOND_NONE:
-//                stateInfo = "没有连接";
-//                try {
-//                    manager.createBond(address);
-////                    toToast("自动连接：" + manager.autoBond(address, "000000"));
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                break;
-//            case BluetoothDevice.BOND_BONDING:
-////                try {
-////                    toToast("自动连接：" + manager.autoBond(address,"000000"));
-////                } catch (Exception e) {
-////                    e.printStackTrace();
-////                }
-//                stateInfo = "正在连接";
-//                break;
-//            case BluetoothDevice.BOND_BONDED:
-//                stateInfo = "已经成功连接";
-//                break;
-//
-//        }
-//        ((Button) view).setText("连接状态：" + stateInfo);
-    }
 
     /**
-     * 进入新页面
+     * 设备是否已经添加
      */
-    public void into(View view) {
-        if (manager.connect(address, new MyGattCallBack(address, this))) {
-            Intent intent = new Intent(this, OperationActivity.class);
-            intent.putExtra(ADD, address);
-            startActivity(intent);
+    private boolean deviceExist(String address){
+        for (DeviceInfo deviceInfo:data) {
+            if (deviceInfo.getAddress().equals(address)){
+                return true;
+            }
         }
+        return false;
     }
 
-    public void setPin(View view) {
-//        try {
-//            toToast("输入密码：" + manager.autoBond(address, "000000"));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
+
+
 }
