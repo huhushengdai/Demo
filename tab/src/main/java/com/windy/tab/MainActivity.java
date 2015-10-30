@@ -27,15 +27,15 @@ public class MainActivity extends TabActivity {
             @Override
             public void onTabChanged(String tabId) {
                 Toast.makeText(MainActivity.this,tabId,Toast.LENGTH_SHORT).show();
-                if (tabId.equals("one")){
-                    if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    }
-                }else {
-                    if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    }
-                }
+//                if (tabId.equals("one")){
+//                    if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
+//                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//                    }
+//                }else {
+//                    if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+//                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//                    }
+//                }
             }
         });
 

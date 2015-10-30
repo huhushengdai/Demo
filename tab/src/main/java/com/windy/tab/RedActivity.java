@@ -2,6 +2,7 @@ package com.windy.tab;
 
 import android.app.Activity;
 import android.app.ActivityGroup;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,4 +19,10 @@ public class RedActivity extends Activity {
 
     }
 
+
+    @Override
+    protected void onResume() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        super.onResume();
+    }
 }
