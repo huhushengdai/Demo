@@ -20,6 +20,14 @@
             android:name=".RedActivity"
             android:label="@string/title_activity_red"
             >
+        </activity><activity
+            android:name=".Red2Activity"
+            android:label="@string/title_activity_red"
+            >
+        </activity><activity
+            android:name=".Red3Activity"
+            android:label="@string/title_activity_red"
+            >
         </activity>
         <activity
             android:name=".YellowActivity"
