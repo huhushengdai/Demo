@@ -26,10 +26,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void init() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction ft = manager.beginTransaction();
-        ft.add(R.id.container_left,new LeftFragment(),"tag1");
-        ft.add(R.id.container_right,new RightFragment(),"tag2");
-        ft.commit();
+//        FragmentManager manager = getSupportFragmentManager();
+//        FragmentTransaction ft = manager.beginTransaction();
+//        ft.add(R.id.container_left,new LeftFragment(),"tag1");
+//        ft.add(R.id.container_right,new RightFragment(),"tag2");
+//        ft.commit();
     }
 }

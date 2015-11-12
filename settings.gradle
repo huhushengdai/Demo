@@ -1,1 +1,1 @@
-include ':bluetooth', ':im', ':tab'
+include ':bluetooth', ':im', ':tab', ':distinguish'

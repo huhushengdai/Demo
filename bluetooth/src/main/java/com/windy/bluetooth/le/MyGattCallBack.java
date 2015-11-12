@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothProfile;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -20,18 +19,13 @@ public class MyGattCallBack extends BluetoothGattCallback {
     public BluetoothGattCharacteristic char6;
 
     private String mAddress;
-    private Context mContext;
 
-    public MyGattCallBack(String address,Context context) {
+    public MyGattCallBack(String address) {
         this.mAddress = address;
-        this.mContext = context;
     }
 
     /**
      * get BluetoothGattCharacteristic
-     *
-     * @param gatt
-     * @param status
      */
     public void getCharacteristic(BluetoothGatt gatt, int status) {
 
@@ -71,8 +65,6 @@ public class MyGattCallBack extends BluetoothGattCallback {
 
     /**
      * 设置写入蓝牙设备的指令
-     *
-     * @return
      */
     public BluetoothGattCharacteristic setChar(byte[] instruction) {
         if (char1!=null&&char1.setValue(instruction)) {
@@ -83,9 +75,6 @@ public class MyGattCallBack extends BluetoothGattCallback {
 
     /**
      * 设置写入蓝牙设备的信息
-     *
-     * @param message
-     * @return
      */
     public BluetoothGattCharacteristic setChar(String message) {
         if (char6!=null&&char6.setValue(message)) {

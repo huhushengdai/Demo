@@ -146,7 +146,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 break;
             case BluetoothDevice.BOND_BONDED:
                 Log.d(TAG, "完成配对");
-                if (manager.addGatt(device,new MyGattCallBack(address,MainActivity.this))){
+                if (manager.addGatt(device,new MyGattCallBack(address))){
                     loadingDialog.dismiss();
                     DialogManager.dismiss(loadingDialog);
                     Intent intent = new Intent(MainActivity.this,OperationActivity.class);
