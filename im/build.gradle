@@ -17,16 +17,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.zhy:percent-support-extends:1.0.6'
-    //百分比
     compile 'com.jiechic.library:xUtils:2.6.14'
-    compile 'de.greenrobot:eventbus:2.4.0'
-    //EvenBus
+    compile 'de.greenrobot:eventbus:2.4.0'//EvenBus
     compile 'com.alibaba:fastjson:1.2.7'
+    compile 'com.facebook.stetho:stetho:1.0.1' //chrome调试   chrome://inspect
     compile project(':tool')
 }

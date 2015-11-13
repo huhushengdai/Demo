@@ -1,23 +1,13 @@
 package com.windy.im.ui;
 
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-
-import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ContentView;
 import com.windy.im.R;
 
 
-public class MainActivity extends ActionBarActivity {
+@ContentView(R.layout.activity_main)
+public class MainActivity extends BaseActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ViewUtils.inject(this);
-        init();
-    }
-
-    private void init() {
+    protected void init() {
 //        FragmentManager manager = getSupportFragmentManager();
 //        FragmentTransaction ft = manager.beginTransaction();
 //        ft.add(R.id.container_left,new LeftFragment(),"tag1");

@@ -119,6 +119,8 @@ public class LoginSaveManager implements CompoundButton.OnCheckedChangeListener 
                     passwordEdit.getText().toString().trim(),
                     rememberBox.isChecked(),
                     false);
+        }else{
+            rememberBox.setChecked(true);
         }
     }
 }
