@@ -1,18 +1,10 @@
-package com.windy.im;
+package com.windy.im.ui;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.support.v7.app.ActionBarActivity;
 
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.windy.im.fragments.LeftFragment;
-import com.windy.im.fragments.RightFragment;
+import com.windy.im.R;
 
 
 public class MainActivity extends ActionBarActivity {
