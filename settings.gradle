@@ -1,1 +1,1 @@
-include ':bluetooth', ':im', ':tab',':tool'
+include ':bluetooth', ':im', ':tab',':tool','ptr'
