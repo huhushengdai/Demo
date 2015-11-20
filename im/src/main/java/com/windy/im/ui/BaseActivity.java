@@ -13,6 +13,11 @@ import com.windy.im.R;
  *      BaseActivity，所有自定义activity继承的BaseActivity，可以做处理
  */
 public class BaseActivity extends ActionBarActivity {
+
+
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -10,6 +10,8 @@ import android.widget.EditText;
  * author: wang
  * time: 2015/11/13
  * description:
+ * 登录管理工具
+ * 关联 账号EditText,密码EditText，记住密码CheckBox，自动登录CheckBox
  * 登录保存账号密码到SharedPreferences
  */
 public class LoginSaveManager implements CompoundButton.OnCheckedChangeListener {

@@ -4,6 +4,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.lidroid.xutils.view.annotation.ContentView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -16,6 +18,7 @@ public class LoginActivity extends BaseActivity {
     private static final String TAG = "LoginActivity";
 
     private LoginSaveManager loginSaveManager;
+    private BaseApp baseApp;
 
     //---      view       -----
     @ViewInject(R.id.login_user)
@@ -29,16 +32,19 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        baseApp = BaseApp.getInstance();
         loginSaveManager = new LoginSaveManager(this,
                 userEdit, passwordEdit,
                 rememberBox, autoLogin);
         if (autoLogin.isChecked()) {
-            BaseApp.toast("自动登录");
+//            BaseApp.toast("自动登录");
         }
     }
 
     @OnClick(R.id.login_submit)
     public void httpLogin(View view) {
-        loginSaveManager.saveLoginPreferences();
+        loginSaveManager.saveLoginPreferences();//保存登录信息
+
+        PushManager.startWork(this, PushConstants.LOGIN_TYPE_API_KEY,"LHQhacKsVdBn5wHIi25DCfmv");
     }
 }

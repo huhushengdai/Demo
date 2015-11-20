@@ -14,7 +14,9 @@ public class BaseApp extends Application {
     private static final String TAG = "BaseApp";
 
     private static BaseApp baseApp;
+    private static Toast mToast;
 
+    private String api_key = "LHQhacKsVdBn5wHIi25DCfmv";
 
     @Override
     public void onCreate() {
@@ -31,15 +33,27 @@ public class BaseApp extends Application {
     /**
      * 获取BaseApp  实例
      *
-     * @return
+     * @return BaseApp
      */
     public static BaseApp getInstance() {
         return baseApp;
     }
 
+    public String getApi_key() {
+        return api_key;
+    }
+
+    public void setApi_key(String api_key) {
+        this.api_key = api_key;
+    }
+
     public static void toast(String text) {
         if (baseApp != null) {
-            Toast.makeText(baseApp, text, Toast.LENGTH_SHORT).show();
+            if (mToast!=null){
+                mToast.cancel();
+            }
+            mToast =  Toast.makeText(baseApp, text, Toast.LENGTH_SHORT);
+            mToast.show();
         }
     }
 }
