@@ -1,1 +1,1 @@
-include ':bluetooth', ':im', ':tab',':tool','ptr'
+include ':bluetooth', ':im', ':tab',':tool',':ptr',':nfctest'

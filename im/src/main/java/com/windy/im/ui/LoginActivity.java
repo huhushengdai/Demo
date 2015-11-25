@@ -15,7 +15,7 @@ import com.windy.tool.utils.LoginSaveManager;
 
 @ContentView(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
     private LoginSaveManager loginSaveManager;
     private BaseApp baseApp;
