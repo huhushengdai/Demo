@@ -3,7 +3,6 @@ package com.windy.bluetooth.le;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.pm.PackageManager;

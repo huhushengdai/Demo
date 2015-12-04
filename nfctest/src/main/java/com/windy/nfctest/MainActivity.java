@@ -6,7 +6,6 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,8 +14,6 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.windy.nfctest.bean.CardByteArray;
-import com.windy.nfctest.bean.CardInfo;
-import com.windy.nfctest.callback.ReadBack;
 import com.windy.nfctest.utils.CardManager;
 import com.windy.nfctest.utils.ConvertManager;
 
@@ -92,7 +89,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-//        CardByteArray cardByteArray = CardManager.readCard(intent);
+        CardByteArray cardByteArray = CardManager.readCard(intent);
 //        if (cardByteArray!=null){
 //            CardInfo cardInfo = ConvertManager.convertData(cardByteArray);
 //            if (cardInfo!=null){

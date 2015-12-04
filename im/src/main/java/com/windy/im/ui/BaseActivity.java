@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.lidroid.xutils.ViewUtils;
-import com.windy.im.R;
 
 /**
  * author: wang

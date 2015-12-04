@@ -1,7 +1,6 @@
 package com.windy.tab;
 
 import android.app.Activity;
-import android.app.ActivityGroup;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -9,13 +8,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.OrientationEventListener;
-import android.widget.TabHost;
 
 
 public class YellowActivity extends Activity implements SensorEventListener {
