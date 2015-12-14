@@ -46,7 +46,7 @@ public class MainActivity extends ActionBarActivity {
                 .findViewById(R.id.surfaceView);
         surfaceView.getHolder()
                 .setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        surfaceView.getHolder().setFixedSize(640, 480); //设置Surface分辨率
+        surfaceView.getHolder().setFixedSize(1280, 760); //设置Surface分辨率
         surfaceView.getHolder().setKeepScreenOn(true);// 屏幕常亮
         surfaceView.getHolder().addCallback(new SurfaceCallback());//为SurfaceView的句柄添加一个回调函数
     }
@@ -148,7 +148,8 @@ public class MainActivity extends ActionBarActivity {
             Camera.Size size = list.get(0);
             parameters.setPictureFormat(PixelFormat.JPEG); // 设置图片格式
 ////            1280x720
-//            parameters.setPreviewSize(640, 480); // 设置预览大小
+            Camera.Size preSize =  parameters.getSupportedPreviewSizes().get(0);
+            parameters.setPreviewSize(preSize.width, preSize.height); // 设置预览大小
 //            parameters.setPreviewFrameRate(5);  //设置每秒显示4帧
             parameters.setPictureSize(size.width,size.height); // 设置保存的图片尺寸
             parameters.setRotation(90);
@@ -262,14 +263,14 @@ public class MainActivity extends ActionBarActivity {
            * @param bitmap
            * @return Bitmap
            */
-    public static Bitmap rotaingImageView(int angle , Bitmap bitmap) {
-        //旋转图片 动作
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        System.out.println("angle2=" + angle);
-        // 创建新的图片
-        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
-                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        return resizedBitmap;
-    }
+//    public static Bitmap rotaingImageView(int angle , Bitmap bitmap) {
+//        //旋转图片 动作
+//        Matrix matrix = new Matrix();
+//        matrix.postRotate(angle);
+//        System.out.println("angle2=" + angle);
+//        // 创建新的图片
+//        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+//                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+//        return resizedBitmap;
+//    }
 }
